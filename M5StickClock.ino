@@ -3,6 +3,9 @@
 
 #include <M5StickC.h>
 #include "img/logo.h"
+#include "img/layout.h"
+
+int count = 0;
 
 void setup() {
   M5.begin();
@@ -12,7 +15,12 @@ void setup() {
 
 void loop() {
   M5.Lcd.startWrite();
-  M5.Lcd.pushImage(0, 0, logoWidth, logoHeight, logo);
+  if (count < 20) {
+    M5.Lcd.pushImage(0, 0, logoWidth, logoHeight, logo);
+  } else {
+    M5.Lcd.pushImage(0, 0, layoutWidth, layoutHeight, layout);
+  }
   M5.Lcd.endWrite();
-  delay(1000);
+  count++;
+  delay(1000 / 20);
 }
