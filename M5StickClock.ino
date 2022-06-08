@@ -2,6 +2,7 @@
 // Copyright (c) 2022 Sora Arakawa
 
 #include <M5StickC.h>
+#include "img/logo.h"
 
 void setup() {
   M5.begin();
@@ -10,4 +11,8 @@ void setup() {
 }
 
 void loop() {
+  M5.Lcd.startWrite();
+  M5.Lcd.pushImage(0, 0, logoWidth, logoHeight, logo);
+  M5.Lcd.endWrite();
+  delay(1000);
 }
