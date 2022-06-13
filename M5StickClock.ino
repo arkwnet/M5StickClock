@@ -4,6 +4,7 @@
 #include <M5StickC.h>
 #include "img/logo.h"
 #include "img/layout.h"
+#include "img/colon.h"
 #include "img/big.h"
 #include "img/medium.h"
 
@@ -38,6 +39,7 @@ void loop() {
       sprite.pushImage(101, 12, bigWidth, bigHeight, big);
       sprite.pushImage(129, 28, mediumWidth, mediumHeight, medium);
       sprite.pushImage(143, 28, mediumWidth, mediumHeight, medium);
+      sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
       break;
   }
   sprite.pushSprite(0, 0);
