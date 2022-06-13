@@ -5,6 +5,7 @@
 #include "img/logo.h"
 #include "img/layout.h"
 #include "img/big.h"
+#include "img/medium.h"
 
 int screen = 0;
 int count = 0;
@@ -35,6 +36,8 @@ void loop() {
       sprite.pushImage(31, 12, bigWidth, bigHeight, big);
       sprite.pushImage(74, 12, bigWidth, bigHeight, big);
       sprite.pushImage(101, 12, bigWidth, bigHeight, big);
+      sprite.pushImage(129, 28, mediumWidth, mediumHeight, medium);
+      sprite.pushImage(143, 28, mediumWidth, mediumHeight, medium);
       break;
   }
   sprite.pushSprite(0, 0);
