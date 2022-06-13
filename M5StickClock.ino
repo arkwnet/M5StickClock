@@ -6,6 +6,7 @@
 #include "img/layout.h"
 #include "img/big.h"
 
+int screen = 0;
 int count = 0;
 TFT_eSprite sprite(&M5.Lcd);
 
@@ -20,14 +21,21 @@ void setup() {
 void loop() {
   M5.Lcd.startWrite();
   sprite.fillScreen(BLACK);
-  if (count < 20) {
-    sprite.pushImage(0, 0, logoWidth, logoHeight, logo);
-  } else {
-    sprite.pushImage(0, 0, layoutWidth, layoutHeight, layout);
-    sprite.pushImage(4, 12, bigWidth, bigHeight, big);
-    sprite.pushImage(31, 12, bigWidth, bigHeight, big);
-    sprite.pushImage(74, 12, bigWidth, bigHeight, big);
-    sprite.pushImage(101, 12, bigWidth, bigHeight, big);
+  switch (screen) {
+    case 0:
+      sprite.pushImage(0, 0, logoWidth, logoHeight, logo);
+      if (count >= 20) {
+        count = 0;
+        screen = 10;
+      }
+      break;
+    case 10:
+      sprite.pushImage(0, 0, layoutWidth, layoutHeight, layout);
+      sprite.pushImage(4, 12, bigWidth, bigHeight, big);
+      sprite.pushImage(31, 12, bigWidth, bigHeight, big);
+      sprite.pushImage(74, 12, bigWidth, bigHeight, big);
+      sprite.pushImage(101, 12, bigWidth, bigHeight, big);
+      break;
   }
   sprite.pushSprite(0, 0);
   M5.Lcd.endWrite();
