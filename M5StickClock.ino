@@ -38,8 +38,8 @@ void loop() {
         sprite.pushImage(31, 12, bigWidth, bigHeight, big);
         sprite.pushImage(74, 12, bigWidth, bigHeight, big);
         sprite.pushImage(101, 12, bigWidth, bigHeight, big);
-        drawMedium(129, 28, 0);
-        drawMedium(143, 28, second);
+        drawMedium(129, 28, second / 10);
+        drawMedium(143, 28, second % 10);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
       }
       break;
@@ -52,7 +52,7 @@ void loop() {
       count = 0;
       second++;
     }
-    if (second >= 10) {
+    if (second >= 60) {
       second = 0;
     }
   }
