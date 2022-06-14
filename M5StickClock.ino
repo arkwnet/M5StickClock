@@ -2,6 +2,7 @@
 // Copyright (c) 2022 Sora Arakawa
 
 #include <M5StickC.h>
+#include <time.h>
 #include "img/logo.h"
 #include "img/layout.h"
 #include "img/colon.h"
@@ -12,6 +13,7 @@ int screen = 0;
 int count = 0;
 int second = 0;
 TFT_eSprite sprite(&M5.Lcd);
+RTC_TimeTypeDef TimeStruct;
 
 void setup() {
   M5.begin();
@@ -19,43 +21,40 @@ void setup() {
   M5.Lcd.setSwapBytes(true);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
+  TimeStruct.Hours = 0;
+  TimeStruct.Minutes = 0;
+  TimeStruct.Seconds = 0;
+  M5.Rtc.SetTime(&TimeStruct);
 }
 
 void loop() {
+  M5.Rtc.GetTime(&TimeStruct);
   M5.Lcd.startWrite();
   switch (screen) {
     case 0:
       sprite.pushImage(0, 0, logoWidth, logoHeight, logo);
+      count++;
       if (count >= 20) {
         count = -1;
         screen = 10;
       }
       break;
     case 10:
-      if (count == 0) {
+      if (TimeStruct.Seconds != second) {
         sprite.pushImage(0, 0, layoutWidth, layoutHeight, layout);
         sprite.pushImage(4, 12, bigWidth, bigHeight, big);
         sprite.pushImage(31, 12, bigWidth, bigHeight, big);
         sprite.pushImage(74, 12, bigWidth, bigHeight, big);
         sprite.pushImage(101, 12, bigWidth, bigHeight, big);
-        drawMedium(129, 28, second / 10);
-        drawMedium(143, 28, second % 10);
+        drawMedium(129, 28, TimeStruct.Seconds / 10);
+        drawMedium(143, 28, TimeStruct.Seconds % 10);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        second = TimeStruct.Seconds;
       }
       break;
   }
   sprite.pushSprite(0, 0);
   M5.Lcd.endWrite();
-  count++;
-  if (screen > 0) {
-    if (count >= 20) {
-      count = 0;
-      second++;
-    }
-    if (second >= 60) {
-      second = 0;
-    }
-  }
   delay(1000 / 20);
 }
 
