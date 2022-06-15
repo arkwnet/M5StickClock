@@ -42,10 +42,10 @@ void loop() {
     case 10:
       if (TimeStruct.Seconds != second) {
         sprite.pushImage(0, 0, layoutWidth, layoutHeight, layout);
-        sprite.pushImage(4, 12, bigWidth, bigHeight, big);
-        sprite.pushImage(31, 12, bigWidth, bigHeight, big);
-        sprite.pushImage(74, 12, bigWidth, bigHeight, big);
-        sprite.pushImage(101, 12, bigWidth, bigHeight, big);
+        drawBig(4, 12, TimeStruct.Hours / 10);
+        drawBig(31, 12, TimeStruct.Hours % 10);
+        drawBig(74, 12, TimeStruct.Minutes / 10);
+        drawBig(101, 12, TimeStruct.Minutes % 10);
         drawMedium(129, 28, TimeStruct.Seconds / 10);
         drawMedium(143, 28, TimeStruct.Seconds % 10);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
@@ -56,6 +56,45 @@ void loop() {
   sprite.pushSprite(0, 0);
   M5.Lcd.endWrite();
   delay(1000 / 20);
+}
+
+void drawBig(int x, int y, int i) {
+  unsigned short big[936];
+  int bsize = sizeof(big);
+  switch (i) {
+    case 0:
+      memcpy(big, big0, bsize);
+      break;
+    case 1:
+      memcpy(big, big1, bsize);
+      break;
+    case 2:
+      memcpy(big, big2, bsize);
+      break;
+    case 3:
+      memcpy(big, big3, bsize);
+      break;
+    case 4:
+      memcpy(big, big4, bsize);
+      break;
+    case 5:
+      memcpy(big, big5, bsize);
+      break;
+    case 6:
+      memcpy(big, big6, bsize);
+      break;
+    case 7:
+      memcpy(big, big7, bsize);
+      break;
+    case 8:
+      memcpy(big, big8, bsize);
+      break;
+    case 9:
+      memcpy(big, big9, bsize);
+      break;
+  }
+  sprite.pushImage(x, y, bigWidth, bigHeight, big);
+  return;
 }
 
 void drawMedium(int x, int y, int i) {
