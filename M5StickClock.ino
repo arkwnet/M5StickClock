@@ -8,6 +8,7 @@
 #include "img/colon.h"
 #include "img/big.h"
 #include "img/medium.h"
+#include "img/small.h"
 
 int screen = 0;
 int count = 0;
@@ -48,6 +49,14 @@ void loop() {
         drawBig(101, 12, TimeStruct.Minutes % 10);
         drawMedium(129, 28, TimeStruct.Seconds / 10);
         drawMedium(143, 28, TimeStruct.Seconds % 10);
+        drawSmall(4, 55, 2);
+        drawSmall(14, 55, 0);
+        drawSmall(24, 55, 2);
+        drawSmall(34, 55, 2);
+        drawSmall(50, 55, 0);
+        drawSmall(60, 55, 4);
+        drawSmall(76, 55, 1);
+        drawSmall(86, 55, 3);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
         second = TimeStruct.Seconds;
       }
@@ -133,5 +142,44 @@ void drawMedium(int x, int y, int i) {
       break;
   }
   sprite.pushImage(x, y, mediumWidth, mediumHeight, medium);
+  return;
+}
+
+void drawSmall(int x, int y, int i) {
+  unsigned short small[150];
+  int ssize = sizeof(small);
+  switch (i) {
+    case 0:
+      memcpy(small, small0, ssize);
+      break;
+    case 1:
+      memcpy(small, small1, ssize);
+      break;
+    case 2:
+      memcpy(small, small2, ssize);
+      break;
+    case 3:
+      memcpy(small, small3, ssize);
+      break;
+    case 4:
+      memcpy(small, small4, ssize);
+      break;
+    case 5:
+      memcpy(small, small5, ssize);
+      break;
+    case 6:
+      memcpy(small, small6, ssize);
+      break;
+    case 7:
+      memcpy(small, small7, ssize);
+      break;
+    case 8:
+      memcpy(small, small8, ssize);
+      break;
+    case 9:
+      memcpy(small, small9, ssize);
+      break;
+  }
+  sprite.pushImage(x, y, smallWidth, smallHeight, small);
   return;
 }
