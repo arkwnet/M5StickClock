@@ -14,6 +14,7 @@ int screen = 0;
 int count = 0;
 int second = 0;
 TFT_eSprite sprite(&M5.Lcd);
+RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
 
 void setup() {
@@ -22,6 +23,10 @@ void setup() {
   M5.Lcd.setSwapBytes(true);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
+  DateStruct.Year = 2022;
+  DateStruct.Month = 4;
+  DateStruct.Date = 13;
+  M5.Rtc.SetData(&DateStruct);
   TimeStruct.Hours = 0;
   TimeStruct.Minutes = 0;
   TimeStruct.Seconds = 0;
@@ -49,14 +54,14 @@ void loop() {
         drawBig(101, 12, TimeStruct.Minutes % 10);
         drawMedium(129, 28, TimeStruct.Seconds / 10);
         drawMedium(143, 28, TimeStruct.Seconds % 10);
-        drawSmall(4, 55, 2);
-        drawSmall(14, 55, 0);
-        drawSmall(24, 55, 2);
-        drawSmall(34, 55, 2);
-        drawSmall(50, 55, 0);
-        drawSmall(60, 55, 4);
-        drawSmall(76, 55, 1);
-        drawSmall(86, 55, 3);
+        drawSmall(4, 55, DateStruct.Year / 1000);
+        drawSmall(14, 55, (DateStruct.Year / 100) % 10);
+        drawSmall(24, 55, (DateStruct.Year / 10) % 10);
+        drawSmall(34, 55, DateStruct.Year % 10);
+        drawSmall(50, 55, DateStruct.Month / 10);
+        drawSmall(60, 55, DateStruct.Month % 10);
+        drawSmall(76, 55, DateStruct.Date / 10);
+        drawSmall(86, 55, DateStruct.Date % 10);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
         second = TimeStruct.Seconds;
       }
