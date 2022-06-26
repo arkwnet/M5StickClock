@@ -10,6 +10,7 @@
 #include "img/medium.h"
 #include "img/small.h"
 #include "img/hyphen.h"
+#include "img/day.h"
 
 int screen = 0;
 int count = 0;
@@ -66,6 +67,9 @@ void loop() {
         drawSmall(62, 55, DateStruct.Month % 10);
         drawSmall(80, 55, DateStruct.Date / 10);
         drawSmall(90, 55, DateStruct.Date % 10);
+        sprite.pushImage(109, 54, dayWidth, dayHeight, day0);
+        sprite.pushImage(126, 54, dayWidth, dayHeight, day);
+        sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
         second = TimeStruct.Seconds;
       }
       break;
