@@ -4,7 +4,6 @@
 #include <M5StickC.h>
 #include <time.h>
 #include "img/logo.h"
-#include "img/layout.h"
 #include "img/colon.h"
 #include "img/big.h"
 #include "img/medium.h"
@@ -14,7 +13,7 @@
 
 int screen = 0;
 int count = 0;
-int second = 0;
+int second = -1;
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
@@ -49,7 +48,7 @@ void loop() {
       break;
     case 10:
       if (TimeStruct.Seconds != second) {
-        sprite.pushImage(0, 0, layoutWidth, layoutHeight, layout);
+        sprite.fillRect(0, 0, 160, 80, BLACK);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
         sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
         sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
@@ -67,8 +66,8 @@ void loop() {
         drawSmall(62, 55, DateStruct.Month % 10);
         drawSmall(80, 55, DateStruct.Date / 10);
         drawSmall(90, 55, DateStruct.Date % 10);
-        sprite.pushImage(109, 54, dayWidth, dayHeight, day0);
-        sprite.pushImage(126, 54, dayWidth, dayHeight, day);
+        sprite.pushImage(111, 54, dayWidth, dayHeight, day0);
+        sprite.pushImage(127, 54, dayWidth, dayHeight, day);
         sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
         second = TimeStruct.Seconds;
       }
