@@ -9,6 +9,7 @@
 #include "img/big.h"
 #include "img/medium.h"
 #include "img/small.h"
+#include "img/hyphen.h"
 
 int screen = 0;
 int count = 0;
@@ -24,8 +25,8 @@ void setup() {
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2022;
-  DateStruct.Month = 4;
-  DateStruct.Date = 13;
+  DateStruct.Month = 6;
+  DateStruct.Date = 26;
   M5.Rtc.SetData(&DateStruct);
   TimeStruct.Hours = 0;
   TimeStruct.Minutes = 0;
@@ -48,6 +49,9 @@ void loop() {
     case 10:
       if (TimeStruct.Seconds != second) {
         sprite.pushImage(0, 0, layoutWidth, layoutHeight, layout);
+        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
         drawBig(4, 12, TimeStruct.Hours / 10);
         drawBig(31, 12, TimeStruct.Hours % 10);
         drawBig(74, 12, TimeStruct.Minutes / 10);
@@ -58,11 +62,10 @@ void loop() {
         drawSmall(14, 55, (DateStruct.Year / 100) % 10);
         drawSmall(24, 55, (DateStruct.Year / 10) % 10);
         drawSmall(34, 55, DateStruct.Year % 10);
-        drawSmall(50, 55, DateStruct.Month / 10);
-        drawSmall(60, 55, DateStruct.Month % 10);
-        drawSmall(76, 55, DateStruct.Date / 10);
-        drawSmall(86, 55, DateStruct.Date % 10);
-        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        drawSmall(52, 55, DateStruct.Month / 10);
+        drawSmall(62, 55, DateStruct.Month % 10);
+        drawSmall(80, 55, DateStruct.Date / 10);
+        drawSmall(90, 55, DateStruct.Date % 10);
         second = TimeStruct.Seconds;
       }
       break;
