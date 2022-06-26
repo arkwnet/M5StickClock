@@ -13,7 +13,7 @@
 
 int screen = 0;
 int count = 0;
-int second = -1;
+int second = 0;
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
@@ -21,7 +21,6 @@ RTC_TimeTypeDef TimeStruct;
 void setup() {
   M5.begin();
   M5.Lcd.setRotation(1);
-  M5.Lcd.setSwapBytes(true);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2022;
@@ -36,18 +35,21 @@ void setup() {
 
 void loop() {
   M5.Rtc.GetTime(&TimeStruct);
-  M5.Lcd.startWrite();
   switch (screen) {
     case 0:
-      sprite.pushImage(0, 0, logoWidth, logoHeight, logo);
+      if (count == 0) {
+        M5.Lcd.pushImage(0, 0, logoWidth, logoHeight, logo);
+      }
       count++;
-      if (count >= 20) {
+      if (count >= 30) {
+        M5.Lcd.setSwapBytes(true);
         count = -1;
         screen = 10;
       }
       break;
     case 10:
       if (TimeStruct.Seconds != second) {
+        M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
         sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
@@ -69,13 +71,13 @@ void loop() {
         sprite.pushImage(111, 54, dayWidth, dayHeight, day0);
         sprite.pushImage(127, 54, dayWidth, dayHeight, day);
         sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
         second = TimeStruct.Seconds;
       }
       break;
   }
-  sprite.pushSprite(0, 0);
-  M5.Lcd.endWrite();
-  delay(1000 / 20);
+  delay(1000 / 30);
 }
 
 void drawBig(int x, int y, int i) {
