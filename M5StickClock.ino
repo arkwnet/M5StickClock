@@ -26,7 +26,7 @@ void setup() {
   DateStruct.Year = 2022;
   DateStruct.Month = 6;
   DateStruct.Date = 28;
-  DateStruct.WeekDay = 2;
+  DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
   M5.Rtc.SetData(&DateStruct);
   TimeStruct.Hours = 0;
   TimeStruct.Minutes = 0;
@@ -226,4 +226,14 @@ void drawDay(int x, int y, int i) {
   }
   sprite.pushImage(x, y, dayWidth, dayHeight, day);
   return;
+}
+
+int zeller(int y, int m, int d) {
+  int w;
+  if (m < 3) {
+    y--;
+    m += 12;
+  }
+  w = (y + y / 4 - y / 100 + y / 400 + (13 * m + 8) / 5 + d) % 7;
+  return w;
 }
