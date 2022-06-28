@@ -25,7 +25,8 @@ void setup() {
   sprite.setSwapBytes(true);
   DateStruct.Year = 2022;
   DateStruct.Month = 6;
-  DateStruct.Date = 26;
+  DateStruct.Date = 28;
+  DateStruct.WeekDay = 2;
   M5.Rtc.SetData(&DateStruct);
   TimeStruct.Hours = 0;
   TimeStruct.Minutes = 0;
@@ -68,7 +69,7 @@ void loop() {
         drawSmall(62, 55, DateStruct.Month % 10);
         drawSmall(80, 55, DateStruct.Date / 10);
         drawSmall(90, 55, DateStruct.Date % 10);
-        sprite.pushImage(111, 54, dayWidth, dayHeight, day0);
+        drawDay(111, 54, DateStruct.WeekDay);
         sprite.pushImage(127, 54, dayWidth, dayHeight, day);
         sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
         sprite.pushSprite(0, 0);
@@ -194,5 +195,35 @@ void drawSmall(int x, int y, int i) {
       break;
   }
   sprite.pushImage(x, y, smallWidth, smallHeight, small);
+  return;
+}
+
+void drawDay(int x, int y, int i) {
+  unsigned short day[256];
+  int dsize = sizeof(day);
+  switch (i) {
+    case 0:
+      memcpy(day, day0, dsize);
+      break;
+    case 1:
+      memcpy(day, day1, dsize);
+      break;
+    case 2:
+      memcpy(day, day2, dsize);
+      break;
+    case 3:
+      memcpy(day, day3, dsize);
+      break;
+    case 4:
+      memcpy(day, day4, dsize);
+      break;
+    case 5:
+      memcpy(day, day5, dsize);
+      break;
+    case 6:
+      memcpy(day, day6, dsize);
+      break;
+  }
+  sprite.pushImage(x, y, dayWidth, dayHeight, day);
   return;
 }
