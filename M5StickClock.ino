@@ -13,6 +13,7 @@
 
 int screen = 0;
 int count = 0;
+int countSleep = 0;
 int second = 0;
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
@@ -21,6 +22,7 @@ RTC_TimeTypeDef TimeStruct;
 void setup() {
   M5.begin();
   M5.Lcd.setRotation(1);
+  M5.Axp.ScreenBreath(11);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2022;
@@ -35,6 +37,7 @@ void setup() {
 }
 
 void loop() {
+  M5.update();
   M5.Rtc.GetTime(&TimeStruct);
   switch (screen) {
     case 0:
@@ -75,6 +78,15 @@ void loop() {
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         second = TimeStruct.Seconds;
+      }
+      if (M5.BtnA.wasPressed()) {
+        countSleep = 0;
+        M5.Axp.ScreenBreath(11);
+      }
+      if (countSleep >= 150) {
+        M5.Axp.ScreenBreath(7);
+      } else {
+        countSleep++;
       }
       break;
   }
