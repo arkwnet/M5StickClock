@@ -22,13 +22,14 @@ RTC_TimeTypeDef TimeStruct;
 
 void setup() {
   M5.begin();
+  setCpuFrequencyMhz(20);
   M5.Lcd.setRotation(1);
   M5.Axp.ScreenBreath(11);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2022;
   DateStruct.Month = 6;
-  DateStruct.Date = 28;
+  DateStruct.Date = 29;
   DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
   M5.Rtc.SetData(&DateStruct);
   TimeStruct.Hours = 0;
