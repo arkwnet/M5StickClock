@@ -15,6 +15,7 @@ int screen = 0;
 int count = 0;
 int countSleep = 0;
 int second = 0;
+int temp = 0;
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
@@ -40,6 +41,7 @@ void loop() {
   M5.update();
   M5.Rtc.GetTime(&TimeStruct);
   switch (screen) {
+    // Splash Screen
     case 0:
       if (count == 0) {
         M5.Lcd.pushImage(0, 0, logoWidth, logoHeight, logo);
@@ -51,6 +53,8 @@ void loop() {
         screen = 10;
       }
       break;
+
+    // Clock Screen
     case 10:
       if (TimeStruct.Seconds != second) {
         M5.Lcd.startWrite();
@@ -79,6 +83,12 @@ void loop() {
         M5.Lcd.endWrite();
         second = TimeStruct.Seconds;
       }
+      if (M5.BtnA.pressedFor(1000)) {
+        M5.Axp.ScreenBreath(11);
+        temp = TimeStruct.Hours;
+        count = -1;
+        screen = 20;
+      }
       if (M5.BtnA.wasPressed()) {
         countSleep = 0;
         M5.Axp.ScreenBreath(11);
@@ -87,6 +97,82 @@ void loop() {
         M5.Axp.ScreenBreath(7);
       } else {
         countSleep++;
+      }
+      break;
+    
+    // Set Hours
+    case 20:
+      if (count != temp) {
+        M5.Lcd.startWrite();
+        sprite.fillRect(0, 0, 160, 80, BLACK);
+        drawBig(4, 12, temp / 10);
+        drawBig(31, 12, temp % 10);
+        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        count = temp;
+      }
+      if (M5.BtnA.wasPressed()) {
+        count = -1;
+        temp = TimeStruct.Minutes;
+        screen = 21;
+      }
+      if (M5.BtnB.wasPressed()) {
+        temp++;
+        if (temp >= 24) {
+          temp = 0;
+        }
+        TimeStruct.Hours = temp;
+        M5.Rtc.SetTime(&TimeStruct);
+      }
+      break;
+
+    // Set Minutes
+    case 21:
+      if (count != temp) {
+        M5.Lcd.startWrite();
+        sprite.fillRect(0, 0, 160, 80, BLACK);
+        drawBig(74, 12, temp / 10);
+        drawBig(101, 12, temp % 10);
+        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        count = temp;
+      }
+      if (M5.BtnA.wasPressed()) {
+        second = -1;
+        screen = 22;
+      }
+      if (M5.BtnB.wasPressed()) {
+        temp++;
+        if (temp >= 60) {
+          temp = 0;
+        }
+        TimeStruct.Minutes = temp;
+        M5.Rtc.SetTime(&TimeStruct);
+      }
+      break;
+
+    // Set Seconds
+    case 22:
+      if (TimeStruct.Seconds != second) {
+        M5.Lcd.startWrite();
+        sprite.fillRect(0, 0, 160, 80, BLACK);
+        drawMedium(129, 28, TimeStruct.Seconds / 10);
+        drawMedium(143, 28, TimeStruct.Seconds % 10);
+        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        second = TimeStruct.Seconds;
+      }
+      if (M5.BtnA.wasPressed()) {
+        second = -1;
+        screen = 10;
+      }
+      if (M5.BtnB.wasPressed()) {
+        second = -1;
+        TimeStruct.Seconds = 0;
+        M5.Rtc.SetTime(&TimeStruct);
       }
       break;
   }
