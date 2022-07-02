@@ -28,8 +28,8 @@ void setup() {
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2022;
-  DateStruct.Month = 6;
-  DateStruct.Date = 29;
+  DateStruct.Month = 7;
+  DateStruct.Date = 1;
   DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
   M5.Rtc.SetData(&DateStruct);
   TimeStruct.Hours = 0;
@@ -168,13 +168,81 @@ void loop() {
       }
       if (M5.BtnA.wasPressed()) {
         second = -1;
-        screen = 10;
+        count = -1;
+        temp = DateStruct.Year;
+        screen = 30;
       }
       if (M5.BtnB.wasPressed()) {
         second = -1;
         TimeStruct.Seconds = 0;
         M5.Rtc.SetTime(&TimeStruct);
       }
+      break;
+
+    // Set Year
+    case 30:
+      if (count != temp) {
+        M5.Lcd.startWrite();
+        sprite.fillRect(0, 0, 160, 80, BLACK);
+        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawSmall(4, 55, DateStruct.Year / 1000);
+        drawSmall(14, 55, (DateStruct.Year / 100) % 10);
+        drawSmall(24, 55, (DateStruct.Year / 10) % 10);
+        drawSmall(34, 55, DateStruct.Year % 10);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        count = temp;
+      }
+      if (M5.BtnA.wasPressed()) {
+        count = -1;
+        temp = DateStruct.Month;
+        screen = 31;
+      }
+      if (M5.BtnB.wasPressed()) {
+        temp++;
+        if (temp >= 2024) {
+          temp = 2022;
+        }
+        DateStruct.Year = temp;
+        DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
+        M5.Rtc.SetData(&DateStruct);
+      }
+      break;
+
+    // Set Month
+    case 31:
+      if (count != temp) {
+        M5.Lcd.startWrite();
+        sprite.fillRect(0, 0, 160, 80, BLACK);
+        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawSmall(52, 55, DateStruct.Month / 10);
+        drawSmall(62, 55, DateStruct.Month % 10);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        count = temp;
+      }
+      if (M5.BtnA.wasPressed()) {
+        count = -1;
+        temp = DateStruct.Date;
+        screen = 32;
+      }
+      if (M5.BtnB.wasPressed()) {
+        temp++;
+        if (temp >= 13) {
+          temp = 1;
+        }
+        DateStruct.Month = temp;
+        DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
+        M5.Rtc.SetData(&DateStruct);
+      }
+      break;
+
+    // Set Date (WIP)
+    case 32:
+      second = -1;
+      screen = 10;
       break;
   }
   delay(1000 / 30);
