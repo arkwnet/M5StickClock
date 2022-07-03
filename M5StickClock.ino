@@ -16,6 +16,7 @@ int count = 0;
 int countSleep = 0;
 int second = 0;
 int temp = 0;
+int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
@@ -201,7 +202,7 @@ void loop() {
       }
       if (M5.BtnB.wasPressed()) {
         temp++;
-        if (temp >= 2024) {
+        if (temp > 2023) {
           temp = 2022;
         }
         DateStruct.Year = temp;
@@ -230,19 +231,47 @@ void loop() {
       }
       if (M5.BtnB.wasPressed()) {
         temp++;
-        if (temp >= 13) {
+        if (temp > 12) {
           temp = 1;
         }
         DateStruct.Month = temp;
+        if (DateStruct.Date > dmax[DateStruct.Month - 1]) {
+          DateStruct.Date = dmax[DateStruct.Month - 1];
+        }
         DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
         M5.Rtc.SetData(&DateStruct);
       }
       break;
 
-    // Set Date (WIP)
+    // Set Date
     case 32:
-      second = -1;
-      screen = 10;
+      if (count != temp) {
+        M5.Lcd.startWrite();
+        sprite.fillRect(0, 0, 160, 80, BLACK);
+        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawSmall(80, 55, DateStruct.Date / 10);
+        drawSmall(90, 55, DateStruct.Date % 10);
+        drawDay(111, 54, DateStruct.WeekDay);
+        sprite.pushImage(127, 54, dayWidth, dayHeight, day);
+        sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        count = temp;
+      }
+      if (M5.BtnA.wasPressed()) {
+        second = -1;
+        screen = 10;
+      }
+      if (M5.BtnB.wasPressed()) {
+        temp++;
+        if (temp > dmax[DateStruct.Month - 1]) {
+          temp = 1;
+        }
+        DateStruct.Date = temp;
+        DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
+        M5.Rtc.SetData(&DateStruct);
+      }
       break;
   }
   delay(1000 / 30);
