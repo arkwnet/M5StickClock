@@ -1,12 +1,8 @@
 #include <pgmspace.h>
 
-// hyphen.png
-// https://lang-ship.com/tools/image2data/
-
 const uint16_t hyphenWidth = 7;
 const uint16_t hyphenHeight = 6;
 
-// RGB565 Dump(little endian)
 const unsigned short hyphen[42] PROGMEM = {
 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,// row 0, 7 pixels
 0xE739,0xEF7B,0xEF7B,0xEF7B,0xEF7B,0xEF7B,0xEB5A,// row 1, 14 pixels

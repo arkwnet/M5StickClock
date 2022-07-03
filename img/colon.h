@@ -1,12 +1,8 @@
 #include <pgmspace.h>
 
-// colon.png
-// https://lang-ship.com/tools/image2data/
-
 const uint16_t colonWidth = 9;
 const uint16_t colonHeight = 28;
 
-// RGB565 Dump(little endian)
 const unsigned short colon[252] PROGMEM = {
 0xE318,0xEF7B,0xEF7B,0xEF7B,0xEF7B,0xEF7B,0xEF7B,0xEF7B,0xE318,// row 0, 9 pixels
 0xE739,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xE739,// row 1, 18 pixels
