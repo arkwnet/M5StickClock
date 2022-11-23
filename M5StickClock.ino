@@ -60,6 +60,33 @@ void loop() {
     // Clock Screen
     case 10:
       if (TimeStruct.Seconds != second) {
+        if (TimeStruct.Hours == 0 && TimeStruct.Minutes == 0 && TimeStruct.Seconds == 0) {
+          int lastDay = 31;
+          switch (DateStruct.Month) {
+            case 2:
+              lastDay = 28;
+              break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+              lastDay = 30;
+              break;
+          }
+          if (DateStruct.Date >= lastDay) {
+            DateStruct.Date = 1;
+            if (DateStruct.Month >= 12) {
+              DateStruct.Month = 1;
+              DateStruct.Year++;
+            } else {
+              DateStruct.Month++;
+            }
+          } else {
+            DateStruct.Date++;
+          }
+          DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
+          M5.Rtc.SetData(&DateStruct);
+        }
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
         sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
