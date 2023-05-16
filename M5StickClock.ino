@@ -1,5 +1,5 @@
 // M5StickClock
-// Copyright (c) 2022 Sora Arakawa
+// Copyright (c) 2022,2023 Sora Arakawa
 // Licensed under the MIT License
 
 #include <M5StickC.h>
@@ -25,12 +25,12 @@ RTC_TimeTypeDef TimeStruct;
 void setup() {
   M5.begin();
   setCpuFrequencyMhz(20);
-  M5.Lcd.setRotation(1);
+  M5.Lcd.setRotation(3);
   M5.Axp.ScreenBreath(11);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
-  DateStruct.Year = 2022;
-  DateStruct.Month = 7;
+  DateStruct.Year = 2023;
+  DateStruct.Month = 5;
   DateStruct.Date = 1;
   DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
   M5.Rtc.SetData(&DateStruct);
@@ -89,26 +89,26 @@ void loop() {
         }
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
-        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
-        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
-        drawBig(4, 12, TimeStruct.Hours / 10);
-        drawBig(31, 12, TimeStruct.Hours % 10);
-        drawBig(74, 12, TimeStruct.Minutes / 10);
-        drawBig(101, 12, TimeStruct.Minutes % 10);
-        drawMedium(129, 28, TimeStruct.Seconds / 10);
-        drawMedium(143, 28, TimeStruct.Seconds % 10);
-        drawSmall(4, 55, DateStruct.Year / 1000);
-        drawSmall(14, 55, (DateStruct.Year / 100) % 10);
-        drawSmall(24, 55, (DateStruct.Year / 10) % 10);
-        drawSmall(34, 55, DateStruct.Year % 10);
-        drawSmall(52, 55, DateStruct.Month / 10);
-        drawSmall(62, 55, DateStruct.Month % 10);
-        drawSmall(80, 55, DateStruct.Date / 10);
-        drawSmall(90, 55, DateStruct.Date % 10);
-        drawDay(111, 54, DateStruct.WeekDay);
-        sprite.pushImage(127, 54, dayWidth, dayHeight, day);
-        sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
+        sprite.pushImage(60, 20, colonWidth, colonHeight, colon);
+        sprite.pushImage(43, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(71, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawBig(3, 12, TimeStruct.Hours / 10);
+        drawBig(30, 12, TimeStruct.Hours % 10);
+        drawBig(73, 12, TimeStruct.Minutes / 10);
+        drawBig(100, 12, TimeStruct.Minutes % 10);
+        drawMedium(128, 28, TimeStruct.Seconds / 10);
+        drawMedium(142, 28, TimeStruct.Seconds % 10);
+        drawSmall(3, 55, DateStruct.Year / 1000);
+        drawSmall(13, 55, (DateStruct.Year / 100) % 10);
+        drawSmall(23, 55, (DateStruct.Year / 10) % 10);
+        drawSmall(33, 55, DateStruct.Year % 10);
+        drawSmall(51, 55, DateStruct.Month / 10);
+        drawSmall(61, 55, DateStruct.Month % 10);
+        drawSmall(79, 55, DateStruct.Date / 10);
+        drawSmall(89, 55, DateStruct.Date % 10);
+        drawDay(110, 54, DateStruct.WeekDay);
+        sprite.pushImage(126, 54, dayWidth, dayHeight, day);
+        sprite.pushImage(142, 54, dayWidth, dayHeight, day0);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         second = TimeStruct.Seconds;
@@ -135,9 +135,9 @@ void loop() {
       if (count != temp) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        drawBig(4, 12, temp / 10);
-        drawBig(31, 12, temp % 10);
-        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        drawBig(3, 12, temp / 10);
+        drawBig(30, 12, temp % 10);
+        sprite.pushImage(60, 20, colonWidth, colonHeight, colon);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         count = temp;
@@ -162,9 +162,9 @@ void loop() {
       if (count != temp) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        drawBig(74, 12, temp / 10);
-        drawBig(101, 12, temp % 10);
-        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        drawBig(73, 12, temp / 10);
+        drawBig(100, 12, temp % 10);
+        sprite.pushImage(60, 20, colonWidth, colonHeight, colon);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         count = temp;
@@ -188,9 +188,9 @@ void loop() {
       if (TimeStruct.Seconds != second) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        drawMedium(129, 28, TimeStruct.Seconds / 10);
-        drawMedium(143, 28, TimeStruct.Seconds % 10);
-        sprite.pushImage(61, 20, colonWidth, colonHeight, colon);
+        drawMedium(128, 28, TimeStruct.Seconds / 10);
+        drawMedium(142, 28, TimeStruct.Seconds % 10);
+        sprite.pushImage(60, 20, colonWidth, colonHeight, colon);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         second = TimeStruct.Seconds;
@@ -213,12 +213,12 @@ void loop() {
       if (count != temp) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
-        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
-        drawSmall(4, 55, DateStruct.Year / 1000);
-        drawSmall(14, 55, (DateStruct.Year / 100) % 10);
-        drawSmall(24, 55, (DateStruct.Year / 10) % 10);
-        drawSmall(34, 55, DateStruct.Year % 10);
+        sprite.pushImage(43, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(71, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawSmall(3, 55, DateStruct.Year / 1000);
+        drawSmall(13, 55, (DateStruct.Year / 100) % 10);
+        drawSmall(23, 55, (DateStruct.Year / 10) % 10);
+        drawSmall(33, 55, DateStruct.Year % 10);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         count = temp;
@@ -244,10 +244,10 @@ void loop() {
       if (count != temp) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
-        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
-        drawSmall(52, 55, DateStruct.Month / 10);
-        drawSmall(62, 55, DateStruct.Month % 10);
+        sprite.pushImage(43, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(71, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawSmall(51, 55, DateStruct.Month / 10);
+        drawSmall(61, 55, DateStruct.Month % 10);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         count = temp;
@@ -276,13 +276,13 @@ void loop() {
       if (count != temp) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
-        sprite.pushImage(44, 61, hyphenWidth, hyphenHeight, hyphen);
-        sprite.pushImage(72, 61, hyphenWidth, hyphenHeight, hyphen);
-        drawSmall(80, 55, DateStruct.Date / 10);
-        drawSmall(90, 55, DateStruct.Date % 10);
-        drawDay(111, 54, DateStruct.WeekDay);
-        sprite.pushImage(127, 54, dayWidth, dayHeight, day);
-        sprite.pushImage(143, 54, dayWidth, dayHeight, day0);
+        sprite.pushImage(43, 61, hyphenWidth, hyphenHeight, hyphen);
+        sprite.pushImage(71, 61, hyphenWidth, hyphenHeight, hyphen);
+        drawSmall(79, 55, DateStruct.Date / 10);
+        drawSmall(89, 55, DateStruct.Date % 10);
+        drawDay(110, 54, DateStruct.WeekDay);
+        sprite.pushImage(126, 54, dayWidth, dayHeight, day);
+        sprite.pushImage(142, 54, dayWidth, dayHeight, day0);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         count = temp;
