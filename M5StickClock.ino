@@ -21,6 +21,8 @@ int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
+int screenWidth = 160;
+int screenHeight = 80;
 
 void setup() {
   M5.begin();
@@ -47,7 +49,7 @@ void loop() {
     // Splash Screen
     case 0:
       if (count == 0) {
-        M5.Lcd.pushImage(0, 0, logoWidth, logoHeight, logo);
+        M5.Lcd.pushImage(0, 0, screenWidth, screenHeight, logo);
       }
       count++;
       if (count >= 30) {
@@ -122,6 +124,10 @@ void loop() {
       if (M5.BtnA.wasPressed()) {
         countSleep = 0;
         M5.Axp.ScreenBreath(11);
+      }
+      if (M5.BtnB.pressedFor(1000)) {
+        count = -1;
+        screen = 100;
       }
       if (countSleep >= 150) {
         M5.Axp.ScreenBreath(7);
@@ -299,6 +305,22 @@ void loop() {
         DateStruct.Date = temp;
         DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
         M5.Rtc.SetData(&DateStruct);
+      }
+      break;
+    
+    // M5StickClock Logo (Workaround)
+    case 100:
+      if (count == -1) {
+        M5.Axp.ScreenBreath(11);
+        M5.Lcd.setSwapBytes(false);
+        M5.Lcd.pushImage(0, 0, screenWidth, screenHeight, logo);
+        count = 0;
+      }
+      if (M5.BtnA.wasPressed()) {
+        M5.Lcd.setSwapBytes(true);
+        countSleep = 0;
+        second = -1;
+        screen = 10;
       }
       break;
   }
