@@ -11,18 +11,20 @@
 #include "img/small.h"
 #include "img/hyphen.h"
 #include "img/day.h"
+#include "img/verinfo.h"
 
+const int version[3] = {1, 0, 0};
+const int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int screenWidth = 160;
+const int screenHeight = 80;
 int screen = 0;
 int count = 0;
 int countSleep = 0;
 int second = 0;
 int temp = 0;
-int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 TFT_eSprite sprite(&M5.Lcd);
 RTC_DateTypeDef DateStruct;
 RTC_TimeTypeDef TimeStruct;
-int screenWidth = 160;
-int screenHeight = 80;
 
 void setup() {
   M5.begin();
@@ -308,12 +310,12 @@ void loop() {
       }
       break;
     
-    // M5StickClock Logo (Workaround)
+    // Version Info (WIP)
     case 100:
       if (count == -1) {
         M5.Axp.ScreenBreath(11);
         M5.Lcd.setSwapBytes(false);
-        M5.Lcd.pushImage(0, 0, screenWidth, screenHeight, logo);
+        M5.Lcd.pushImage(0, 0, screenWidth, screenHeight, verinfo);
         count = 0;
       }
       if (M5.BtnA.wasPressed()) {
