@@ -318,7 +318,7 @@ void loop() {
         M5.Lcd.pushImage(0, 0, screenWidth, screenHeight, verinfo);
         count = 0;
       }
-      if (M5.BtnA.wasPressed()) {
+      if (M5.BtnB.wasPressed()) {
         M5.Lcd.setSwapBytes(true);
         countSleep = 0;
         second = -1;
