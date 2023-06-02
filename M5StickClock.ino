@@ -14,9 +14,9 @@
 #include "img/verinfo.h"
 
 const int version[3] = {1, 0, 0};
-const int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 const int screenWidth = 160;
 const int screenHeight = 80;
+int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 int screen = 0;
 int count = 0;
 int countSleep = 0;
@@ -34,7 +34,7 @@ void setup() {
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2023;
-  DateStruct.Month = 5;
+  DateStruct.Month = 6;
   DateStruct.Date = 1;
   DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
   M5.Rtc.SetData(&DateStruct);
@@ -42,6 +42,7 @@ void setup() {
   TimeStruct.Minutes = 0;
   TimeStruct.Seconds = 0;
   M5.Rtc.SetTime(&TimeStruct);
+  dmax[1] = leapYear(DateStruct.Year);
 }
 
 void loop() {
@@ -238,10 +239,11 @@ void loop() {
       }
       if (M5.BtnB.wasPressed()) {
         temp++;
-        if (temp > 2023) {
-          temp = 2022;
+        if (temp > 2029) {
+          temp = 2020;
         }
         DateStruct.Year = temp;
+        dmax[1] = leapYear(DateStruct.Year);
         DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
         M5.Rtc.SetData(&DateStruct);
       }
@@ -281,6 +283,11 @@ void loop() {
 
     // Set Date
     case 32:
+      if (count == -1) {
+        if (DateStruct.Date > dmax[DateStruct.Month - 1]) {
+          DateStruct.Date = dmax[DateStruct.Month - 1];
+        }
+      }
       if (count != temp) {
         M5.Lcd.startWrite();
         sprite.fillRect(0, 0, 160, 80, BLACK);
@@ -484,4 +491,12 @@ int zeller(int y, int m, int d) {
   }
   w = (y + y / 4 - y / 100 + y / 400 + (13 * m + 8) / 5 + d) % 7;
   return w;
+}
+
+int leapYear(int y) {
+  if (y == 2020 || y == 2024 || y == 2028) {
+    return 29;
+  } else {
+    return 28;
+  }
 }
