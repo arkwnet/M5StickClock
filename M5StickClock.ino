@@ -11,7 +11,7 @@
 #include "img/small.h"
 #include "img/hyphen.h"
 #include "img/day.h"
-#include "img/verinfo.h"
+#include "img/settings.h"
 
 const int version[3] = {1, 0, 0};
 const int screenWidth = 160;
@@ -321,12 +321,12 @@ void loop() {
     case 100:
       if (count == -1) {
         M5.Axp.ScreenBreath(11);
-        M5.Lcd.setSwapBytes(false);
-        M5.Lcd.pushImage(0, 0, screenWidth, screenHeight, verinfo);
+        M5.Lcd.pushImage(0, 0, screenWidth, 16, settings_header_version);
+        M5.Lcd.pushImage(0, 16, screenWidth, 2, settings_border);
+        M5.Lcd.pushImage(0, 18, screenWidth, 62, settings_version1);
         count = 0;
       }
       if (M5.BtnB.wasPressed()) {
-        M5.Lcd.setSwapBytes(true);
         countSleep = 0;
         second = -1;
         screen = 10;
