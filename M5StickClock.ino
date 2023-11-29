@@ -34,7 +34,7 @@ void setup() {
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
   sprite.setSwapBytes(true);
   DateStruct.Year = 2023;
-  DateStruct.Month = 6;
+  DateStruct.Month = 1;
   DateStruct.Date = 1;
   DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
   M5.Rtc.SetData(&DateStruct);
@@ -321,9 +321,18 @@ void loop() {
     case 100:
       if (count == -1) {
         M5.Axp.ScreenBreath(11);
-        M5.Lcd.pushImage(0, 0, screenWidth, 16, settings_header_version);
-        M5.Lcd.pushImage(0, 16, screenWidth, 2, settings_border);
-        M5.Lcd.pushImage(0, 18, screenWidth, 62, settings_version1);
+        M5.Lcd.startWrite();
+        sprite.setSwapBytes(false);
+        sprite.fillRect(0, 0, screenWidth, screenHeight, BLACK);
+        sprite.pushImage(0, 0, screenWidth, 16, settings_header_version);
+        sprite.pushImage(0, 16, screenWidth, 2, settings_border);
+        sprite.pushImage(14, 24, 133, 49, settings_version1);
+        sprite.setSwapBytes(true);
+        drawSmall(96, 59, version[0]);
+        drawSmall(111, 59, version[1]);
+        drawSmall(126, 59, version[2]);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
         count = 0;
       }
       if (M5.BtnB.wasPressed()) {
