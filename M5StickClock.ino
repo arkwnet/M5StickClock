@@ -317,7 +317,7 @@ void loop() {
       }
       break;
     
-    // Version Info (WIP)
+    // Settings, Version Information (Page 1)
     case 100:
       if (count == -1) {
         M5.Axp.ScreenBreath(11);
@@ -334,6 +334,35 @@ void loop() {
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
         count = 0;
+      }
+      if (M5.BtnA.wasPressed()) {
+        count = -1;
+        screen = 101;
+      }
+      if (M5.BtnB.wasPressed()) {
+        countSleep = 0;
+        second = -1;
+        screen = 10;
+      }
+      break;
+
+    // Settings, Version Information (Page 2)
+    case 101:
+      if (count == -1) {
+        M5.Lcd.startWrite();
+        sprite.setSwapBytes(false);
+        sprite.fillRect(0, 0, screenWidth, screenHeight, BLACK);
+        sprite.pushImage(0, 0, screenWidth, 16, settings_header_version);
+        sprite.pushImage(0, 16, screenWidth, 2, settings_border);
+        sprite.pushImage(4, 24, 153, 53, settings_version2);
+        sprite.pushSprite(0, 0);
+        M5.Lcd.endWrite();
+        sprite.setSwapBytes(true);
+        count = 0;
+      }
+      if (M5.BtnA.wasPressed()) {
+        count = -1;
+        screen = 100;
       }
       if (M5.BtnB.wasPressed()) {
         countSleep = 0;
