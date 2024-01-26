@@ -1,8 +1,5 @@
 ![](https://user-images.githubusercontent.com/15243878/177044904-e031aa1c-d9af-4f63-8114-1545615b4ac3.png)
 
-Copyright (c) 2022,2023 Sora Arakawa  
-Licensed under the MIT License
-
 ![](https://user-images.githubusercontent.com/15243878/238657282-0c15e168-0018-4a7d-be3d-54d805e002bd.jpg)
 
 ## 主な機能
@@ -26,3 +23,9 @@ Licensed under the MIT License
 
 B ボタンを長押しすると、バージョン情報が表示されます。  
 A ボタンを押すと次のページに進み、B ボタンで通常画面に戻ります。
+
+## ライセンス
+
+MIT
+
+詳しくは `LICENSE` ファイルをご参照ください。
