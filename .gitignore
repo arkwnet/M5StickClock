@@ -1,3 +1,5 @@
 debug.cfg
 debug_custom.json
 esp32.svd
+tools/img/**/*.h
+tools/img/**/*.png
