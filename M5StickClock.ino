@@ -1,5 +1,5 @@
 // M5StickClock
-// Copyright (c) 2022,2023 Sora Arakawa
+// Copyright (c) 2022-2024 Sora Arakawa
 // Licensed under the MIT License
 
 #include <M5StickC.h>
@@ -13,7 +13,7 @@
 #include "img/day.h"
 #include "img/settings.h"
 
-const int version[3] = {1, 0, 0};
+const int version[3] = {1, 1, 0};
 const int screenWidth = 160;
 const int screenHeight = 80;
 int dmax[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -30,10 +30,10 @@ void setup() {
   M5.begin();
   setCpuFrequencyMhz(20);
   M5.Lcd.setRotation(3);
+  M5.Lcd.setSwapBytes(true);
   M5.Axp.ScreenBreath(11);
   sprite.createSprite(M5.Lcd.width(), M5.Lcd.height());
-  sprite.setSwapBytes(true);
-  DateStruct.Year = 2023;
+  DateStruct.Year = 2024;
   DateStruct.Month = 1;
   DateStruct.Date = 1;
   DateStruct.WeekDay = zeller(DateStruct.Year, DateStruct.Month, DateStruct.Date);
@@ -56,7 +56,6 @@ void loop() {
       }
       count++;
       if (count >= 30) {
-        M5.Lcd.setSwapBytes(true);
         count = -1;
         screen = 10;
       }
@@ -322,12 +321,10 @@ void loop() {
       if (count == -1) {
         M5.Axp.ScreenBreath(11);
         M5.Lcd.startWrite();
-        sprite.setSwapBytes(false);
         sprite.fillRect(0, 0, screenWidth, screenHeight, BLACK);
         sprite.pushImage(0, 0, screenWidth, 16, settings_header_version);
         sprite.pushImage(0, 16, screenWidth, 2, settings_border);
         sprite.pushImage(14, 24, 133, 49, settings_version1);
-        sprite.setSwapBytes(true);
         drawSmall(96, 59, version[0]);
         drawSmall(111, 59, version[1]);
         drawSmall(126, 59, version[2]);
@@ -350,14 +347,12 @@ void loop() {
     case 101:
       if (count == -1) {
         M5.Lcd.startWrite();
-        sprite.setSwapBytes(false);
         sprite.fillRect(0, 0, screenWidth, screenHeight, BLACK);
         sprite.pushImage(0, 0, screenWidth, 16, settings_header_version);
         sprite.pushImage(0, 16, screenWidth, 2, settings_border);
-        sprite.pushImage(4, 24, 153, 53, settings_version2);
+        sprite.pushImage(2, 23, 156, 54, settings_version2);
         sprite.pushSprite(0, 0);
         M5.Lcd.endWrite();
-        sprite.setSwapBytes(true);
         count = 0;
       }
       if (M5.BtnA.wasPressed()) {
