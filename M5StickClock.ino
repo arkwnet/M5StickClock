@@ -1,7 +1,3 @@
-// M5StickClock
-// Copyright (c) 2022-2024 Sora Arakawa
-// Licensed under the MIT License
-
 #include <M5StickC.h>
 #include <time.h>
 #include "img/logo.h"
